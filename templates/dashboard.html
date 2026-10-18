@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MailTrack Dashboard</title>
+  <style>
+    body { font-family: -apple-system, Arial, sans-serif; margin: 40px; background: #0f172a; color: #e2e8f0; }
+    h1 { font-size: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #334155; font-size: 14px; }
+    th { color: #94a3b8; font-weight: 600; }
+    tr:hover { background: #1e293b; }
+    .opened { color: #4ade80; font-weight: 600; }
+    .unopened { color: #64748b; }
+    a { color: #60a5fa; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Tracked Emails</h1>
+  <table>
+    <tr>
+      <th>Recipient</th>
+      <th>Subject</th>
+      <th>Sent</th>
+      <th>Status</th>
+      <th>Opens</th>
+    </tr>
+    {% for e in emails %}
+    <tr>
+      <td>{{ e.recipient }}</td>
+      <td>{{ e.subject }}</td>
+      <td>{{ e.sent_at[:19] }}</td>
+      <td>
+        {% if e.open_count > 0 %}
+          <span class="opened">Opened</span>
+        {% else %}
+          <span class="unopened">Not opened</span>
+        {% endif %}
+      </td>
+      <td><a href="/email/{{ e.id }}">{{ e.open_count }}</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Open log</title>
+  <style>
+    body { font-family: -apple-system, Arial, sans-serif; margin: 40px; background: #0f172a; color: #e2e8f0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #334155; font-size: 14px; }
+    th { color: #94a3b8; }
+    a { color: #60a5fa; }
+  </style>
+</head>
+<body>
+  <a href="/">&larr; back</a>
+  <h1>Opens for {{ tracking_id }}</h1>
+  <table>
+    <tr><th>Time</th><th>IP</th><th>User-Agent</th></tr>
+    {% for o in opens %}
+    <tr><td>{{ o.opened_at }}</td><td>{{ o.ip }}</td><td>{{ o.user_agent }}</td></tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
