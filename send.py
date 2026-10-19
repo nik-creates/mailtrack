@@ -9,8 +9,7 @@ Required env vars:
     GMAIL_APP_PASSWORD gmail app password (not your normal password)
     TRACKER_BASE_URL   public URL of the running Flask app, e.g. https://your-domain.com
 
-Every email includes a visible disclosure line stating it is tracked,
-and an invisible 1x1 pixel that logs opens against a unique ID.
+Every email includes an invisible 1x1 pixel that logs opens against a unique ID.
 """
 import argparse
 import os
@@ -21,13 +20,6 @@ from email.mime.text import MIMEText
 
 import db
 
-DISCLOSURE = (
-    "<p style='font-size:11px;color:#888;margin-top:24px;"
-    "border-top:1px solid #ddd;padding-top:8px;'>"
-    "This email is tracked for read receipts (open tracking)."
-    "</p>"
-)
-
 
 def send_tracked_email(to_addr: str, subject: str, html_body: str):
     gmail_addr = os.environ["GMAIL_ADDRESS"]
@@ -37,7 +29,7 @@ def send_tracked_email(to_addr: str, subject: str, html_body: str):
     tracking_id = uuid.uuid4().hex
     pixel_tag = f"<img src='{base_url}/pixel/{tracking_id}.gif' width='1' height='1' style='display:none;' alt=''>"
 
-    full_html = f"{html_body}\n{DISCLOSURE}\n{pixel_tag}"
+    full_html = f"{html_body}\n{pixel_tag}"
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject

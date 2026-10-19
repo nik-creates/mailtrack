@@ -1,6 +1,6 @@
 # MailTrack
 
-Minimal email open-tracker. Sends disclosed, tracked emails via Gmail and logs opens through an invisible pixel.
+Minimal email open-tracker. Sends tracked emails via Gmail and stealthily logs opens through an invisible pixel.
 
 ## Setup
 
@@ -32,7 +32,6 @@ python send.py --to someone@example.com --subject "Test" --body body.html
 
 - Every sent email gets a unique tracking ID.
 - A 1x1 invisible GIF pixel pointing at `/pixel/<id>.gif` is embedded in the HTML body.
-- Every email also includes a visible disclosure line stating it is tracked.
 - When the recipient's mail client loads images, the pixel request is logged (time, IP, user-agent) in `tracking.db`.
 - View results on the dashboard.
 
