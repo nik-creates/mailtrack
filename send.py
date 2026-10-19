@@ -3,6 +3,7 @@ Send a tracked email via Gmail SMTP.
 
 Usage:
     python send.py --to someone@example.com --subject "Hi" --body body.html
+    python send.py --to someone@example.com --subject "Hi" --text "Email text message"
 
 Required env vars:
     GMAIL_ADDRESS      your gmail address
@@ -48,12 +49,18 @@ def send_tracked_email(to_addr: str, subject: str, html_body: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--to", required=True)
-    parser.add_argument("--subject", required=True)
-    parser.add_argument("--body", required=True, help="path to an HTML body file")
+    parser.add_argument("--to", required=True, help="recipient email address")
+    parser.add_argument("--subject", required=True, help="email subject line")
+    parser.add_argument("--body", required=False, help="path to an HTML body file")
+    parser.add_argument("--text", required=False, help="direct inline text/HTML body string")
     args = parser.parse_args()
 
-    with open(args.body) as f:
-        html_body = f.read()
+    if args.body:
+        with open(args.body) as f:
+            html_body = f.read()
+    elif args.text:
+        html_body = f"<p>{args.text}</p>" if not args.text.strip().startswith("<") else args.text
+    else:
+        raise ValueError("Either --body or --text must be provided")
 
     send_tracked_email(args.to, args.subject, html_body)
